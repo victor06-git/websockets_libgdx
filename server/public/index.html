@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>WS Positions</title>
+  <style>body{font-family:sans-serif;padding:20px}</style>
+</head>
+<body>
+  <h1>Posición del personaje</h1>
+  <div id="pos">esperando...</div>
+  <script>
+    const el = document.getElementById('pos');
+    const ws = new WebSocket('ws://' + location.hostname + ':8080');
+    ws.onopen = () => console.log('connected');
+    ws.onmessage = (ev) => {
+      try {
+        const obj = JSON.parse(ev.data);
+        if (obj.x !== undefined && obj.y !== undefined) {
+          el.innerText = 'x: ' + Number(obj.x).toFixed(2) + '  y: ' + Number(obj.y).toFixed(2);
+        } else {
+          el.innerText = JSON.stringify(obj);
+        }
+      } catch (e) {
+        el.innerText = ev.data;
+      }
+    };
+  </script>
+</body>
+</html>
