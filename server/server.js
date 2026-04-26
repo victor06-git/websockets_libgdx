@@ -35,7 +35,16 @@ wss.on('connection', function connection(ws) {
   ws.send(JSON.stringify({msg:'welcome'}));
 });
 
-const port = 8080;
+const port = process.env.PORT ? Number(process.env.PORT) : 8080;
 server.listen(port, () => {
   console.log('Server listening on http://localhost:' + port);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error('Port ' + port + ' already in use. Use another PORT or stop the process using it.');
+  } else {
+    console.error('Server error:', err);
+  }
+  process.exit(1);
 });
