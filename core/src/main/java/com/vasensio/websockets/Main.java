@@ -51,6 +51,8 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
+        com.github.czyzby.websocket.CommonWebSockets.initiate();
+
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -90,19 +92,20 @@ public class Main extends ApplicationAdapter {
     }
 
     private void initializeWebSocket() {
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            address = "10.0.2.2"; // IP para conectar al PC desde el emulador
+        try {
+            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                address = "10.0.2.2";
+            }
+
+            socket = WebSockets.newSocket(WebSockets.toWebSocketUrl(address, port));
+            socket.setSendGracefully(false);
+            socket.addListener(new MyWSListener());
+
+            Gdx.app.log("WS", "Intentando conectar a " + address);
+            socket.connect();
+        } catch (Exception e) {
+            Gdx.app.error("WS", "Error al inicializar: " + e.getMessage());
         }
-
-        // Creamos el socket usando la factoría de la librería
-        socket = WebSockets.newSocket(WebSockets.toWebSocketUrl(address, port));
-        socket.setSendGracefully(false);
-
-        // Añadimos el listener (clase interna definida abajo)
-        socket.addListener(new MyWSListener());
-
-        Gdx.app.log("WS", "Intentando conectar a " + address);
-        socket.connect();
     }
 
     @Override
