@@ -14,10 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-// 
- * MPORTS ESPECÍFICOS DE GDX-WEBSOCKETS
- * 
- 
+// IMPORTS ESPECÍFICOS DE GDX-WEBSOCKETS
 import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSocketListener;
 import com.github.czyzby.websocket.WebSockets;
@@ -70,8 +67,7 @@ public class Main extends ApplicationAdapter {
         style.background = touchpadSkin.getDrawable("bg");
         style.knob = touchpadSkin.getDrawable("knob");
 
-        touchpad =
-            new Touchpad(10, style);
+        touchpad = new Touchpad(10, style);
         touchpad.setBounds(50, 50, 150, 150);
         stage.addActor(touchpad);
 
